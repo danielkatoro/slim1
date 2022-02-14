@@ -75,7 +75,18 @@ $app->get('/personne', function(Request $request, Response $response, array $par
     echo(json_encode($rs));
 });
 
+$mw = function($request, $response, $next){
+    $body = $request->getBody();
+    $data = json_decode($body, true);
 
+    if ($data['age'] <= 0) {
+        $response->getBody()->write('Age not correct');
+    }else{
+        $response = $next($request, $response);
+    }
+
+    return $response;
+};
 
 
 $app->post('/personne', function(Request $request, Response $response, array $params) use ($conn){
@@ -93,7 +104,7 @@ $app->post('/personne', function(Request $request, Response $response, array $pa
     'age'=>$age
 ]);
 echo ('Insertion reussie');
-});
+})->add($mw);
 
 
 
