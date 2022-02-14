@@ -68,6 +68,14 @@ $app->delete('/products/{id}', function(Request $request, Response $response, ar
     echo('Suppresion reussi');
 });
 
+$app->get('/personne', function(Request $request, Response $response, array $param) use ($conn){
+    
+    $stmt = $conn->query('SELECT * FROM personnes');
+    $rs=$stmt->fetchAll();
+    echo(json_encode($rs));
+});
+
+
 
 
 $app->post('/personne', function(Request $request, Response $response, array $params) use ($conn){
